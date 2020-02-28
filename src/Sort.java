@@ -1,6 +1,12 @@
 import java.util.Arrays;
 
 public class Sort {
+    private static int[] origin = {1,2,3,4,9,8,7,6,5};
+
+    public static void main(String[] args) {
+        //排序测试
+        Sort.printResult(Sort.quickSort(origin,0,origin.length - 1));
+    }
 
     //冒泡排序
     static void bubbleSort(int[] array){
