@@ -2,21 +2,17 @@ import java.util.Arrays;
 
 public class Sort {
 
-    private static int[] origin = {12,3,476,89,64,457,97,154,433,746,976,536,845,983,324,123,743,975,368,3};
-
-    public static void main(String[] args) {
-        printResult(quickSort(origin,0,origin.length - 1));
-    }
-
     //冒泡排序
-    static void maoPao(int[] array){
-        if (array == null)  return;
-        for (int i = 0; i < array.length ; i++) {
-            for (int j = 0; j < array.length - i - 1 ; j++) {
-                if (array[j] > array[j + 1]){
-                    int temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
+    static void bubbleSort(int[] array){
+        if (array == null|| array.length < 2){
+            return;
+        }
+        for (int i = 0; i < array.length - 1; i++) {
+            for (int j = i + 1; j < array.length; j++) {
+                if (array[i] > array[j]){
+                    int tmp = array[i];
+                    array[i] = array[j];
+                    array[j] = tmp;
                 }
             }
         }
@@ -25,19 +21,21 @@ public class Sort {
     }
 
     //选择排序
-    static void xuanZe(int[] array){
-        if (array == null) return;
+    static void selectSort(int[] array){
+        if (array == null || array.length < 2){
+            return;
+        }
         for (int i = 0; i < array.length - 1; i++) {
-            int index = i;
+            int min = i;
             for (int j = i + 1; j < array.length; j++) {
-                if (array[index] > array[j]){
-                    index = j;
+                if (array[min] > array[j]){
+                    min = j;
                 }
             }
-            if (index != i){
-                int temp = array[i];
-                array[i] = array[index];
-                array[index] = temp;
+            if (min != i){
+                int tmp = array[i];
+                array[i] = array[min];
+                array[min] = tmp;
             }
         }
         System.out.println("选择排序");
@@ -45,14 +43,16 @@ public class Sort {
     }
 
     //插入排序
-    static void chaRu(int[] array){
-        if (array == null) return;
+    static void insertSort(int[] array){
+        if (array == null || array.length < 2){
+            return;
+        }
         for (int i = 0; i < array.length - 1; i++) {
             int temp = array[i + 1];
             int index = i;
-            while (index >= 0 && array[index] > temp){
+            while (index >= 0 && temp < array[index]){
                 array[index + 1] = array[index];
-                index --;
+                index--;
             }
             array[index + 1] = temp;
         }
@@ -114,22 +114,27 @@ public class Sort {
 
     //快速排序
     static int[] quickSort(int[] array, int left, int right){
-        if (array == null || left > right){
+        if (array == null || array.length < 2 || left > right){
             return array;
         }
         int key = array[left];
         int low = left;
         int high = right;
         while (low < high){
+            //先在右边找到比key小的值
             while (low < high && array[high] >= key){
-                high --;
+                high--;
             }
+            //交换后空缺位变为右边的位置
             array[low] = array[high];
+            //再在右边找到比key小的数
             while (low < high && array[low] <= key){
-                low ++;
+                low++;
             }
+            //空缺位再次变回左边
             array[high] = array[low];
         }
+        //把key放回空缺位
         array[low] = key;
         quickSort(array,left,low - 1);
         quickSort(array,low + 1,right);
